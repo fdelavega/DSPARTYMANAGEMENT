@@ -74,7 +74,7 @@ public class IndividualAdminResource {
             for (Individual entitie : entities) {
                 partyFacade.checkCreationUpdate(entitie, "CREATE");
                 partyFacade.create(entitie);
-                entitie.setHref(info.getAbsolutePath() + "/" + Long.toString(entitie.getId()));
+                entitie.setHref(info.getAbsolutePath() + "/" + entitie.getId());
                 partyFacade.edit(entitie);
                 affectedRows = affectedRows + 1;
 //                publisher.createNotification(entitie, new Date());
@@ -97,7 +97,7 @@ public class IndividualAdminResource {
     @Path("{id}")
     @Consumes({"application/json"})
     @Produces({"application/json"})
-    public Response update(@PathParam("id") long id, Individual entity) throws UnknownResourceException {
+    public Response update(@PathParam("id") String id, Individual entity) throws UnknownResourceException {
         Response response = null;
         Individual party = partyFacade.find(id);
         if (party != null) {
@@ -152,7 +152,7 @@ public class IndividualAdminResource {
      */
     @DELETE
     @Path("{id}")
-    public Response delete(@PathParam("id") Long id) throws UnknownResourceException {
+    public Response delete(@PathParam("id") String id) throws UnknownResourceException {
         int previousRows = partyFacade.count();
         Individual entity = partyFacade.find(id);
 
@@ -222,7 +222,7 @@ public class IndividualAdminResource {
         individual.setGivenName("GivenName");
 
         individual.setHref("http://serverLocalisation:port/DSPartyManagement/api/partyManagement/v2/individual/42");
-        Long xxx = new Long(42);
+        String xxx ="42";
 
         individual.setId(xxx);
 

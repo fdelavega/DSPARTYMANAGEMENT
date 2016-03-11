@@ -135,7 +135,7 @@ public class HubResource {
         individual.setGivenName("GivenName");
 
         individual.setHref("http://serverLocalisation:port/DSPartyManagement/api/partyManagement/v2/individual/42");
-        Long xxx = new Long(42);
+        String xxx = "42";
         individual.setId(xxx);
 
         List<IndividualIdentification> ident = new ArrayList<IndividualIdentification>();

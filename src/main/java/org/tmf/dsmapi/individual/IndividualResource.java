@@ -60,7 +60,7 @@ public class IndividualResource {
 
         partyFacade.checkCreationUpdate(entity, "CREATE");
         partyFacade.create(entity);
-        entity.setHref(info.getAbsolutePath() + "/" + Long.toString(entity.getId()));
+        entity.setHref(info.getAbsolutePath() + "/" + entity.getId());
         partyFacade.edit(entity);
         publisher.createNotification(entity, new Date());
         // 201
@@ -115,7 +115,7 @@ public class IndividualResource {
     @GET
     @Path("{id}")
     @Produces({"application/json"})
-    public Response get(@PathParam("id") long id, @Context UriInfo info) throws UnknownResourceException {
+    public Response get(@PathParam("id") String id, @Context UriInfo info) throws UnknownResourceException {
 
         // search queryParameters
         MultivaluedMap<String, String> queryParameters = info.getQueryParameters();
@@ -152,7 +152,7 @@ public class IndividualResource {
     @Path("{id}")
     @Consumes({"application/json"})
     @Produces({"application/json"})
-    public Response update(@PathParam("id") long id, Individual entity) throws UnknownResourceException, BadUsageException {
+    public Response update(@PathParam("id") String id, Individual entity) throws UnknownResourceException, BadUsageException {
         Response response = null;
         Individual party = partyFacade.find(id);
         if (party != null) {
@@ -209,7 +209,7 @@ public class IndividualResource {
     @Path("{id}")
     @Consumes({"application/json"})
     @Produces({"application/json"})
-    public Response patch(@PathParam("id") long id, Individual partialIndividual) throws BadUsageException, UnknownResourceException {
+    public Response patch(@PathParam("id") String id, Individual partialIndividual) throws BadUsageException, UnknownResourceException {
         Response response = null;
 
         Individual currentIndividual = partyFacade.patchAttributs(id, partialIndividual);

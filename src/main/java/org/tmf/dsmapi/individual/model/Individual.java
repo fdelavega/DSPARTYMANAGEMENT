@@ -113,7 +113,7 @@ public class Individual
 {
 
     private final static long serialVersionUID = 11L;
-    protected Long id;
+    protected String id;
     protected String href;
     protected String gender;
     protected String placeOfBirth;
@@ -150,9 +150,8 @@ public class Individual
      */
     @Id
     @Column(name = "ID", scale = 0)
-    @GeneratedValue(strategy = GenerationType.AUTO)
     @JsonIgnore
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
@@ -164,7 +163,7 @@ public class Individual
      *     {@link Long }
      *     
      */
-    public void setId(Long value) {
+    public void setId(String value) {
         this.id = value;
     }
 

@@ -48,10 +48,16 @@ public class IndividualFacade extends AbstractFacade<Individual> {
         
         if (action.equalsIgnoreCase("CREATE")) {
             if (newIndividual.getId() != null) {
-                if (this.find(newIndividual.getId()) != null) {
+                
+                try {
+                    this.find(newIndividual.getId());
                     throw new BadUsageException(ExceptionType.BAD_USAGE_GENERIC,
                             "Duplicate Exception, Individual with same id :" + newIndividual.getId() + " alreay exists");
+                } catch (UnknownResourceException ex) {
+                    // Nothing to do...
                 }
+            } else {
+                throw new BadUsageException(ExceptionType.BAD_USAGE_GENERIC, "ID must be included");
             }
         }
         
@@ -147,7 +153,7 @@ public class IndividualFacade extends AbstractFacade<Individual> {
         
     }
     
-    public Individual patchAttributs(long id, Individual partialIndividual) throws UnknownResourceException, BadUsageException {
+    public Individual patchAttributs(String id, Individual partialIndividual) throws UnknownResourceException, BadUsageException {
         Individual currentIndividual = this.find(id);
         
         if (currentIndividual == null) {
