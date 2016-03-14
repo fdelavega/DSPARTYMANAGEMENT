@@ -76,7 +76,7 @@ public class OrganizationAdminResource {
             for (Organization entitie : entities) {
                 partyFacade.checkCreationUpdate(entitie,"CREATE");
                 partyFacade.create(entitie);
-                entitie.setHref(info.getAbsolutePath() + "/" + Long.toString(entitie.getId()));
+                entitie.setHref(info.getAbsolutePath() + "/" + entitie.getId());
                 partyFacade.edit(entitie);
                 affectedRows = affectedRows + 1;
 //                publisher.createNotification(entitie, new Date());
@@ -99,7 +99,7 @@ public class OrganizationAdminResource {
     @Path("{id}")
     @Consumes({"application/json"})
     @Produces({"application/json"})
-    public Response update(@PathParam("id") long id, Organization entity) throws UnknownResourceException {
+    public Response update(@PathParam("id") String id, Organization entity) throws UnknownResourceException {
         Response response = null;
         Organization party = partyFacade.find(id);
         if (party != null) {
@@ -154,7 +154,7 @@ public class OrganizationAdminResource {
      */
     @DELETE
     @Path("{id}")
-    public Response delete(@PathParam("id") Long id) throws UnknownResourceException {
+    public Response delete(@PathParam("id") String id) throws UnknownResourceException {
         int previousRows = partyFacade.count();
         Organization entity = partyFacade.find(id);
 
@@ -211,7 +211,7 @@ public class OrganizationAdminResource {
         organization.setExternalReference(erList);
 
         organization.setHref("http://serverLocalisation:port/DSPartyManagement/api/partyManagement/v2/organization/42");
-        organization.setId(new Long(42));
+        organization.setId("42");
         organization.setIsLegalEntity("IsLegalEntity");
         organization.setNameType("NameType");
         OrganizationChildRelationship ock = new OrganizationChildRelationship();

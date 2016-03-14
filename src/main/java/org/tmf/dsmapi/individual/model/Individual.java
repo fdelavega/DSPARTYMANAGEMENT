@@ -145,12 +145,11 @@ public class Individual
      * 
      * @return
      *     possible object is
-     *     {@link Long }
+     *     {@link String }
      *     
      */
     @Id
     @Column(name = "ID", scale = 0)
-    @JsonIgnore
     public String getId() {
         return id;
     }
@@ -160,7 +159,7 @@ public class Individual
      * 
      * @param value
      *     allowed object is
-     *     {@link Long }
+     *     {@link String }
      *     
      */
     public void setId(String value) {

@@ -92,7 +92,7 @@ public class Organization
 {
 
     private final static long serialVersionUID = 11L;
-    protected Long id;
+    protected String id;
     protected String href;
     protected String isLegalEntity;
     protected String type;
@@ -114,13 +114,12 @@ public class Organization
      * 
      * @return
      *     possible object is
-     *     {@link Long }
+     *     {@link String }
      *     
      */
     @Id
     @Column(name = "ID", scale = 0)
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
@@ -129,10 +128,10 @@ public class Organization
      * 
      * @param value
      *     allowed object is
-     *     {@link Long }
+     *     {@link String }
      *     
      */
-    public void setId(Long value) {
+    public void setId(String value) {
         this.id = value;
     }
 

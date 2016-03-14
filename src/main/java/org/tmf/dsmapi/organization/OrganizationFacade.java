@@ -42,10 +42,15 @@ public class OrganizationFacade extends AbstractFacade<Organization> {
 
         if (action.equalsIgnoreCase("CREATE")) {
             if (newOrganization.getId() != null) {
-                if (this.find(newOrganization.getId()) != null) {
+                try {
+                    this.find(newOrganization.getId()); // Throws exception if item does not exist
                     throw new BadUsageException(ExceptionType.BAD_USAGE_GENERIC,
                             "Duplicate Exception, Organization with same id :" + newOrganization.getId() + " alreay exists");
+                } catch (UnknownResourceException ex) {
+                    // Nothing to do here...
                 }
+            } else {
+                throw new BadUsageException(ExceptionType.BAD_USAGE_GENERIC, "ID must be included");
             }
         }
 
@@ -160,7 +165,7 @@ public class OrganizationFacade extends AbstractFacade<Organization> {
 
     }
 
-    public Organization patchAttributs(long id, Organization partialOrganization) throws UnknownResourceException, BadUsageException {
+    public Organization patchAttributs(String id, Organization partialOrganization) throws UnknownResourceException, BadUsageException {
         Organization currentOrganization = this.find(id);
 
         if (currentOrganization == null) {

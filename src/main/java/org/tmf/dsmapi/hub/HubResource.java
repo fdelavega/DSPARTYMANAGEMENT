@@ -187,7 +187,7 @@ public class HubResource {
         
         
         organization.setHref("http://serverLocalisation:port/DSPartyManagement/api/partyManagement/v2/organization/42");
-        organization.setId(new Long(42));
+        organization.setId("42");
         organization.setIsLegalEntity("IsLegalEntity");
         organization.setNameType("NameType");
         OrganizationChildRelationship ock = new OrganizationChildRelationship();
