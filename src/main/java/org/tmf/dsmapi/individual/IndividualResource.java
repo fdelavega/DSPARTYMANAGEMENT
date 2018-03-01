@@ -29,6 +29,7 @@ import org.codehaus.jackson.node.ObjectNode;
 import org.tmf.dsmapi.commons.exceptions.BadUsageException;
 import org.tmf.dsmapi.commons.exceptions.UnknownResourceException;
 import org.tmf.dsmapi.commons.jaxrs.PATCH;
+import org.tmf.dsmapi.commons.utils.HrefBuilder;
 import org.tmf.dsmapi.commons.utils.Jackson;
 import org.tmf.dsmapi.commons.utils.URIParser;
 import org.tmf.dsmapi.individual.model.Individual;
@@ -46,6 +47,8 @@ public class IndividualResource {
     IndividualEventFacade eventFacade;
     @EJB
     IndividualEventPublisherLocal publisher;
+    @EJB
+    HrefBuilder hrefBuilder;
 
     public IndividualResource() {
     }
@@ -60,7 +63,8 @@ public class IndividualResource {
 
         partyFacade.checkCreationUpdate(entity, "CREATE");
         partyFacade.create(entity);
-        entity.setHref(info.getAbsolutePath() + "/" + entity.getId());
+        entity.setHref(hrefBuilder.buildHref(info, entity.getId()));
+
         partyFacade.edit(entity);
         publisher.createNotification(entity, new Date());
         // 201
