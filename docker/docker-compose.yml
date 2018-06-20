@@ -15,10 +15,11 @@ services:
       - MYSQL_ROOT_PASSWORD=toor
 
   party:
-    image: party-dev
+    image: party
     ports:
-      - "4444:4848"
+      - "4545:4848"
       - "8585:8080"
+      - "9009:9009"
     links:
       - mysql
     depends_on:

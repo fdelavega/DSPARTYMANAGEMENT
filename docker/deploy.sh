@@ -14,7 +14,8 @@ mysql -u root --password=${MYSQL_ROOT_PASSWORD} -h ${MYSQL_HOST} -e "CREATE DATA
 # Create database jdbc conection and deploy the war
 
 export PATH=$PATH:/glassfish4/glassfish/bin
-asadmin start-domain
+asadmin stop-domain
+asadmin start-domain --debug
 
 asadmin create-jdbc-connection-pool --restype java.sql.Driver --driverclassname com.mysql.jdbc.Driver --property user=root:password=${MYSQL_ROOT_PASSWORD}:URL=${MYSQL_URL} DSPARTYMANAGEMENT
 
