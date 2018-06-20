@@ -1,5 +1,6 @@
 package org.tmf.dsmapi.organization;
 
+import java.io.IOException;
 import java.util.Date;
 import org.tmf.dsmapi.commons.facade.AbstractFacade;
 import javax.ejb.EJB;
@@ -165,7 +166,9 @@ public class OrganizationFacade extends AbstractFacade<Organization> {
 
     }
 
-    public Organization patchAttributs(String id, Organization partialOrganization) throws UnknownResourceException, BadUsageException {
+    public Organization patchAttributs(String id, Organization partialOrganization, String rawPatchData)
+            throws UnknownResourceException, BadUsageException, IOException {
+
         Organization currentOrganization = this.find(id);
 
         if (currentOrganization == null) {
@@ -281,7 +284,8 @@ public class OrganizationFacade extends AbstractFacade<Organization> {
         }
 
         ObjectMapper mapper = new ObjectMapper();
-        JsonNode node = mapper.convertValue(partialOrganization, JsonNode.class);
+        JsonNode node = mapper.readTree(rawPatchData);
+
         partialOrganization.setId(id);
         if (BeanUtils.patch(currentOrganization, partialOrganization, node)) {
             publisher.updateNotification(currentOrganization, new Date());

@@ -20,9 +20,15 @@ public class BeanUtils {
 
     private static final PropertyUtilsBean PUB = new PropertyUtilsBean();
 
+    private static void processNodeValue(Object bean, String name, Object patchValue, JsonNode childNode) {
+        Object value = BeanUtils.getNestedProperty(bean, name);
+        patch(value, patchValue, childNode);
+        BeanUtils.setNestedProperty(bean, name, patchValue);
+    }
+
     /**
      *
-     * @param bean
+     * @param bean 
      * @param name
      * @return
      */
@@ -60,24 +66,26 @@ public class BeanUtils {
         Object patchValue;
         Iterator<String> it = node.getFieldNames();
         boolean isModified = false;
+
         while (it.hasNext()) {
             name = it.next();
             patchValue = BeanUtils.getNestedProperty(patchBean, name);
             childNode = node.get(name);
+
             if (null != patchValue) {
                 if (childNode.isArray() && !childNode.isNull()) {
-                    for (final JsonNode nodeArray : childNode) {
-                        value = BeanUtils.getNestedProperty(currentBean, name);
-                        patch(value, patchValue, nodeArray);
-                        BeanUtils.setNestedProperty(currentBean, name, patchValue);
-                        isModified = true;
+                    // Check if the array is an empty array
+                    if (childNode.size() > 0) {
+                        for (final JsonNode nodeArray : childNode) {
+                            BeanUtils.processNodeValue(currentBean, name, patchValue, childNode);
+                        }
+                    } else {
+                        BeanUtils.processNodeValue(currentBean, name, patchValue, childNode);
                     }
                 } else {
-                    value = BeanUtils.getNestedProperty(currentBean, name);
-                    patch(value, patchValue, childNode);
-                    BeanUtils.setNestedProperty(currentBean, name, patchValue);
-                    isModified = true;
+                    BeanUtils.processNodeValue(currentBean, name, patchValue, childNode);
                 }
+                isModified = true;
             }
         }
         return isModified;

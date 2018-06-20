@@ -1,8 +1,7 @@
 package org.tmf.dsmapi.individual;
 
-import java.util.ArrayList;
+import java.io.IOException;
 import java.util.Date;
-import java.util.List;
 import org.tmf.dsmapi.commons.facade.AbstractFacade;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -153,7 +152,7 @@ public class IndividualFacade extends AbstractFacade<Individual> {
         
     }
     
-    public Individual patchAttributs(String id, Individual partialIndividual) throws UnknownResourceException, BadUsageException {
+    public Individual patchAttributs(String id, Individual partialIndividual, String rawPatchData) throws UnknownResourceException, BadUsageException, IOException {
         Individual currentIndividual = this.find(id);
         
         if (currentIndividual == null) {
@@ -244,7 +243,8 @@ public class IndividualFacade extends AbstractFacade<Individual> {
         }
         
         ObjectMapper mapper = new ObjectMapper();
-        JsonNode node = mapper.convertValue(partialIndividual, JsonNode.class);
+        JsonNode node = mapper.readTree(rawPatchData);
+
         partialIndividual.setId(id);
         if (BeanUtils.patch(currentIndividual, partialIndividual, node)) {
             publisher.updateNotification(currentIndividual, new Date());

@@ -5,6 +5,7 @@
 package org.tmf.dsmapi.organization;
 
 //import com.sun.jersey.core.util.MultivaluedMapImpl;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Date;
@@ -24,6 +25,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.node.ObjectNode;
 import org.tmf.dsmapi.commons.exceptions.BadUsageException;
 import org.tmf.dsmapi.commons.exceptions.UnknownResourceException;
@@ -178,10 +180,13 @@ public class OrganizationResource {
     @Path("{id}")
     @Consumes({"application/json"})
     @Produces({"application/json"})
-    public Response patch(@PathParam("id") String id, Organization partialOrganization) throws BadUsageException, UnknownResourceException {
+    public Response patch(@PathParam("id") String id, String rawPatchData)
+            throws BadUsageException, UnknownResourceException, IOException {
         Response response = null;
         
-        Organization currentOrganization = partyFacade.patchAttributs(id, partialOrganization);
+        ObjectMapper mapper = new ObjectMapper();
+        Organization partialOrganization = mapper.readValue(rawPatchData, Organization.class);
+        Organization currentOrganization = partyFacade.patchAttributs(id, partialOrganization, rawPatchData);
 
         // 200 OK + location
         response = Response.status(Response.Status.OK).entity(currentOrganization).build();

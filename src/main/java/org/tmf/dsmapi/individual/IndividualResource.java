@@ -5,6 +5,7 @@
 package org.tmf.dsmapi.individual;
 
 //import com.sun.jersey.core.util.MultivaluedMapImpl;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Date;
@@ -26,6 +27,7 @@ import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 import org.codehaus.jackson.node.ObjectNode;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.tmf.dsmapi.commons.exceptions.BadUsageException;
 import org.tmf.dsmapi.commons.exceptions.UnknownResourceException;
 import org.tmf.dsmapi.commons.jaxrs.PATCH;
@@ -213,11 +215,15 @@ public class IndividualResource {
     @Path("{id}")
     @Consumes({"application/json"})
     @Produces({"application/json"})
-    public Response patch(@PathParam("id") String id, Individual partialIndividual) throws BadUsageException, UnknownResourceException {
+    public Response patch(@PathParam("id") String id, String rawPatchData)
+            throws BadUsageException, UnknownResourceException, IOException {
+
         Response response = null;
 
-        Individual currentIndividual = partyFacade.patchAttributs(id, partialIndividual);
+        ObjectMapper mapper = new ObjectMapper();
+        Individual partialIndividual = mapper.readValue(rawPatchData, Individual.class);
 
+        Individual currentIndividual = partyFacade.patchAttributs(id, partialIndividual, rawPatchData);
         // 200 OK + location
         response = Response.status(Response.Status.OK).entity(currentIndividual).build();
 
