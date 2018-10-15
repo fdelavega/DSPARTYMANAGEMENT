@@ -31,6 +31,11 @@ public class PropertiesSingleton {
     }
 
     public String getServer() {
+        String envServer = System.getenv("BAE_SERVICE_HOST");
+        if (envServer != null) {
+            return envServer;
+        }
+
         if (server == null && props != null) {
             server = (String) props.get("server");
             
