@@ -101,7 +101,7 @@ public class Organization
     protected String nameType;
     protected String status;
     protected OtherName otherName;
-    protected Characteristic characteristic;
+    protected List<Characteristic> characteristic;
     protected OrganizationIdentification organizationIdentification;
     protected List<ExternalReference> externalReference;
     protected RelatedParty relatedParty;
@@ -359,7 +359,10 @@ public class Organization
         CascadeType.ALL
     })
     @JoinColumn(name = "CHARACTERISTIC_ORGANIZATION__0")
-    public Characteristic getCharacteristic() {
+    public List<Characteristic> getCharacteristic() {
+        if (characteristic == null) {
+            characteristic = new ArrayList<Characteristic>();
+        }
         return characteristic;
     }
 
@@ -371,7 +374,7 @@ public class Organization
      *     {@link Characteristic }
      *     
      */
-    public void setCharacteristic(Characteristic value) {
+    public void setCharacteristic(List<Characteristic> value) {
         this.characteristic = value;
     }
 
