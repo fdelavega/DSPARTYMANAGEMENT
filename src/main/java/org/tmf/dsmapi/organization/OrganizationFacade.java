@@ -13,6 +13,7 @@ import org.tmf.dsmapi.commons.exceptions.BadUsageException;
 import org.tmf.dsmapi.commons.exceptions.ExceptionType;
 import org.tmf.dsmapi.commons.exceptions.UnknownResourceException;
 import org.tmf.dsmapi.commons.utils.BeanUtils;
+import org.tmf.dsmapi.individual.model.Characteristic;
 import org.tmf.dsmapi.individual.model.ExternalReference;
 import org.tmf.dsmapi.individual.model.Organization;
 import org.tmf.dsmapi.individual.model.ValidFor;
@@ -62,15 +63,17 @@ public class OrganizationFacade extends AbstractFacade<Organization> {
         }
 
         if (null != newOrganization.getCharacteristic()) {
-            if (null == newOrganization.getCharacteristic().getName()
-                    || newOrganization.getCharacteristic().getName().isEmpty()) {
+            for (Characteristic characteristic: newOrganization.getCharacteristic()) {
+                if (null == characteristic.getName()
+                    || characteristic.getName().isEmpty()) {
                 throw new BadUsageException(ExceptionType.BAD_USAGE_MANDATORY_FIELDS,
                         "characteristic.name is mandatory");
             }
-            if (null == newOrganization.getCharacteristic().getValue()
-                    || newOrganization.getCharacteristic().getValue().isEmpty()) {
+            if (null == characteristic.getValue()
+                    || characteristic.getValue().isEmpty()) {
                 throw new BadUsageException(ExceptionType.BAD_USAGE_MANDATORY_FIELDS,
                         "characteristic.value is mandatory");
+            }
             }
         }
 
@@ -181,15 +184,17 @@ public class OrganizationFacade extends AbstractFacade<Organization> {
         }
 
         if (null != partialOrganization.getCharacteristic()) {
-            if (null == partialOrganization.getCharacteristic().getName()
-                    || partialOrganization.getCharacteristic().getName().isEmpty()) {
+            for (Characteristic characteristic: partialOrganization.getCharacteristic()) {
+                if (null == characteristic.getName()
+                    || characteristic.getName().isEmpty()) {
                 throw new BadUsageException(ExceptionType.BAD_USAGE_MANDATORY_FIELDS,
                         "characteristic.name is mandatory");
             }
-            if (null == partialOrganization.getCharacteristic().getValue()
-                    || partialOrganization.getCharacteristic().getValue().isEmpty()) {
+            if (null == characteristic.getValue()
+                    || characteristic.getValue().isEmpty()) {
                 throw new BadUsageException(ExceptionType.BAD_USAGE_MANDATORY_FIELDS,
                         "characteristic.value is mandatory");
+            }
             }
         }
 
