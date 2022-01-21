@@ -173,7 +173,8 @@ public class HubResource {
         event.setEventTime(new Date());
         event.setId("42");
         Organization organization = new Organization();
-        Characteristic x = new  Characteristic();
+
+        List<Characteristic> x = new ArrayList<>();
         organization.setCharacteristic(x);
         
         List<ContactMedium> cmlist  = new ArrayList<ContactMedium>();
