@@ -198,7 +198,7 @@ public class OrganizationAdminResource {
     @Path("proto")
     public Organization proto() {
         Organization organization = new Organization();
-        Characteristic x = new Characteristic();
+        List<Characteristic> x = new ArrayList<>();
         organization.setCharacteristic(x);
 
         List<ContactMedium> cmlist = new ArrayList<ContactMedium>();
