@@ -355,27 +355,23 @@ public class Organization
      *     {@link Characteristic }
      *     
      */
-    @ManyToOne(targetEntity = Characteristic.class, cascade = {
+    @OneToMany(targetEntity = Characteristic.class, cascade = {
         CascadeType.ALL
     })
-    @JoinColumn(name = "CHARACTERISTIC_ORGANIZATION__0")
+    @JoinColumn(name = "CHARACTERISTIC_ORGANIZATION_ID")
     public List<Characteristic> getCharacteristic() {
         if (characteristic == null) {
             characteristic = new ArrayList<Characteristic>();
         }
-        return characteristic;
+        return this.characteristic;
     }
 
     /**
-     * Définit la valeur de la propriété characteristic.
      * 
-     * @param value
-     *     allowed object is
-     *     {@link Characteristic }
-     *     
+     * 
      */
-    public void setCharacteristic(List<Characteristic> value) {
-        this.characteristic = value;
+    public void setCharacteristic(List<Characteristic> characteristic) {
+        this.characteristic = characteristic;
     }
 
     /**
